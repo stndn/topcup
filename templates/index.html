@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+<head>
+  <title>Top Cup - Test Out Program: Click, Upload, Process</title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bulma/bulma.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/coreui-icons/css/free.min.css') }}">
+</head>
+
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="{{ url_for('index') }}">
+      <i class="cil-satelite" style="font-size: 300%;"></i>
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarMain" class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item" href="{{ url_for('index') }}">Home</a>
+      <a class="navbar-item" href="{{ url_for('gallery') }}">Gallery</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero is-small is-bold is-white" >
+  <div class="hero-body">
+    <div class="container">
+      <p class="title is-2">Top Cup</p>
+      <p class="subtitle is-4">Test Out Program: Click, Upload, Process</p>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <p>This is a test program to either upload an image file from a computer or phone, or capture an image using phone camera.<p>
+
+  <p>When accessed on mobile phone, you will be able to either take picture using phone camera, or browse your phone for pictures.</p>
+
+  <p>When accessed on a computer, you will be able to choose the image file to upload. Current version does not have support for using computer camera.</p>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="box"><ul>
+      {% for category, message in messages %}
+        <li class="has-text-{{ category }}">{{ message }}</li>
+    {% endfor %}
+    </ul></div>
+  {% endif %}
+{% endwith %}
+
+<div class="box">
+  <div class="is-active" data-content="1">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <p>Click to choose a file or take picture</p>
+          <form action="/upload-image" method="post" enctype="multipart/form-data">
+          <div class="field">
+            <div id="image-uploader" class="file has-name">
+              <label class="file-label">
+                <input class="file-input" type="file" id="imgfile" name="imgfile" accept="image/*">
+                <span class="file-cta">
+                  <span class="file-icon"><i class="cil-chevron-circle-up-alt"></i>
+                  </span>
+                  <span class="file-label">Select source</span>
+                </span>
+                <span class="file-name"></span>
+              </label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <button class="button is-link"><span class="icon is-small"><i class="cil-cloud-upload"></i></span> <span>Submit</span></button>
+            </div>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery/jquery-3.4.1.min.js') }}"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+  // Check for click events on the navbar burger icon
+  $(".navbar-burger").click(function() {
+      // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+      $(".navbar-burger").toggleClass("is-active");
+      $(".navbar-menu").toggleClass("is-active");
+  });
+
+
+  // For image upload placeholder
+  const fileInput = document.querySelector('#image-uploader input[type=file]');
+  fileInput.onchange = () => {
+    if (fileInput.files.length > 0) {
+      const fileName = document.querySelector('#image-uploader .file-name');
+      fileName.textContent = fileInput.files[0].name;
+    }
+  }
+
+
+});
+</script>
+
+</body>
+</html>

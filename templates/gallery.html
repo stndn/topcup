@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+  <title>Top Cup - Gallery</title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bulma/bulma.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/coreui-icons/css/free.min.css') }}">
+</head>
+
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="{{ url_for('index') }}">
+      <i class="cil-satelite" style="font-size: 300%;"></i>
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarMain" class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item" href="{{ url_for('index') }}">Home</a>
+      <a class="navbar-item" href="{{ url_for('gallery') }}">Gallery</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero is-small is-bold is-white" >
+  <div class="hero-body">
+    <div class="container">
+      <p class="title is-2">Top Cup</p>
+      <p class="subtitle is-4">The Gallery</p>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <p>Here we can see the list of all files uploaded.<p>
+
+  <p>TODO: Fancy image gallery</p>
+
+{% if not images %}
+  <p class="has-text-danger">No image uploaded</p>
+{% else %}
+  <table class="table is-fullwidth">
+    <thead>
+      <tr>
+        <th>Image filename</th>
+        <th>Filesize (bytes)</th>
+        <th>Width</th>
+        <th>Height</th>
+      </tr>
+    </thead>
+    <tbody>
+  {% for image in images %}
+      <tr>
+        <td><a href="/uploads/img/{{ image['filename'] }}">{{ image['filename'] }}</a></td>
+        <td>{{ image['filesize'] }}</td>
+        <td>{{ image['width'] }}</td>
+        <td>{{ image['height'] }}</td>
+      </tr>
+  {% endfor %}
+    </tbody>
+  </table>
+  <p>Total images: {{ images|length }}</p>
+{% endif %}
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery/jquery-3.4.1.min.js') }}"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+  // Check for click events on the navbar burger icon
+  $(".navbar-burger").click(function() {
+      // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+      $(".navbar-burger").toggleClass("is-active");
+      $(".navbar-menu").toggleClass("is-active");
+  });
+});
+</script>
+
+</body>
+</html>
